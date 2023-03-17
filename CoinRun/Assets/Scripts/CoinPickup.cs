@@ -12,8 +12,7 @@ public class CoinPickup : MonoBehaviour
         Gold
     }
 
-    [SerializeField]
-    private int m_coinValue;
+    public int m_coinValue;
 
     [System.NonSerialized]
     public SpawnArea.Chunk chunk;

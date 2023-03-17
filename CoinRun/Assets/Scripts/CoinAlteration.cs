@@ -36,7 +36,7 @@ public class CoinAlteration : MonoBehaviour
         foreach(CoinPickup coin in coinList)
         {
             if (isBuff) coin.coinType += 1;
-            else coin.coinType -= 1;
+            else coin.m_coinValue = -coin.m_coinValue;
             createTrail(coin.transform.position);
             Debug.Log("valeur mofidiée dans la zone : " + coin.chunk.refArea.name);
         }

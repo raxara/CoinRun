@@ -135,7 +135,7 @@ public class CoinSpawner : MonoBehaviour
 
     public static void AddArea(SpawnArea sa)
     {
-        if (INSTANCE.spawnAreasList.Contains(sa)) return;
+        //if (INSTANCE.spawnAreasList.Contains(sa)) return;
         INSTANCE.spawnAreasList.Add(sa);
     }
 
