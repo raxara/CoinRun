@@ -27,9 +27,14 @@ public class GhostScript : MonoBehaviour
     [SerializeField]
     float minSpeed = 1;
 
+    [SerializeField]
+    float chaseSpeed = 4;
+
+    Coroutine curCorout;
+
     private void Start()
     {
-        StartCoroutine(PatrolCorout());
+        curCorout = StartCoroutine(PatrolCorout());
     }
 
     IEnumerator PatrolCorout()
@@ -51,16 +56,22 @@ public class GhostScript : MonoBehaviour
                 updateSpeed(transform.position, center, midDist);
                 yield return null;
             }
-            /*
+            //pause du fantome
             float t = Random.Range(minPauseDuration, maxPauseDuration);
             while (t > 0)
             {
                 t -= Time.deltaTime;
                 yield return null;
             }
-            */
+            
         }
         
+    }
+
+    IEnumerator ChaseCorout(GameObject player)
+    {
+        agent.SetDestination(player.transform.position);
+        yield return null;
     }
 
     void updateSpeed(Vector3 playerPos, Vector3 center, float midDist)
@@ -73,5 +84,17 @@ public class GhostScript : MonoBehaviour
         agent.speed = speed;
     }
 
+    public void FocusPlayer(GameObject player)
+    {
+        StopCoroutine(curCorout);
+        agent.speed = chaseSpeed;
+        curCorout = StartCoroutine(ChaseCorout(player));
+    }
+
+    public void StartPatrolling()
+    {
+        StopCoroutine(curCorout);
+        curCorout = StartCoroutine(PatrolCorout());
+    }
 
 }

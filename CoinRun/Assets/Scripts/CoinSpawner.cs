@@ -112,7 +112,7 @@ public class CoinSpawner : MonoBehaviour
         {
             result += sa.name + ", ";
         }
-        Debug.Log(result);
+        //Debug.Log(result);
     }
 
     private void GetMaxDistance()
