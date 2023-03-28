@@ -70,7 +70,11 @@ public class GhostScript : MonoBehaviour
 
     IEnumerator ChaseCorout(GameObject player)
     {
-        agent.SetDestination(player.transform.position);
+        while (true)
+        {
+            agent.SetDestination(player.transform.position);
+            yield return null;
+        }
         yield return null;
     }
 
