@@ -9,27 +9,33 @@ public class GhostScript : MonoBehaviour
     [SerializeField]
     NavMeshAgent agent;
 
+    //liste de points ou se rend le fantome pendant sa patrouille
     [SerializeField]
     List<Transform> patrolPointsList;
 
+    //distance minimum avant laquel le fantome est consideré a destination
     [SerializeField]
     float minDistanceValue = 0.5f;
 
+    //temps d'attente minimum et maximum entre 2 pause pendant la patrouille
     [SerializeField]
     float minPauseDuration = 1;
 
     [SerializeField]
     float maxPauseDuration = 5;
 
+    //vitesse minimum et maximum du fantome
     [SerializeField]
     float maxSpeed = 5;
 
     [SerializeField]
     float minSpeed = 1;
 
+    //vitesse pendant le poursuite du joueur
     [SerializeField]
     float chaseSpeed = 4;
 
+    //variable pour jongler entre 2 coroutines différentes
     Coroutine curCorout;
 
     private void Start()
@@ -37,6 +43,7 @@ public class GhostScript : MonoBehaviour
         curCorout = StartCoroutine(PatrolCorout());
     }
 
+    //coroutine de patrouille
     IEnumerator PatrolCorout()
     {
         int curTargetTFIndex = -1;
@@ -44,13 +51,16 @@ public class GhostScript : MonoBehaviour
         float midDist = 0;
         while (true)
         {
+            //on choisit une destination au hasard, en evitant la destination actuelle
             float tempIndex = curTargetTFIndex;
             while (tempIndex == curTargetTFIndex) tempIndex = Random.Range(0, patrolPointsList.Count);
             Vector3 targetTF = patrolPointsList[Random.Range(0, patrolPointsList.Count)].position;
+            //on fait les calculs qui serviront a modifier la vitesse du joueur
             center = (transform.position + targetTF) * 0.5f;
             midDist = Vector3.Distance(transform.position, targetTF) * 0.5f;
             agent.SetDestination(targetTF);
             yield return null;
+            //on met a jour la vitesse du joueur 
             while (agent.remainingDistance > minDistanceValue)
             {
                 updateSpeed(transform.position, center, midDist);
@@ -68,6 +78,7 @@ public class GhostScript : MonoBehaviour
         
     }
 
+    //coroutine de poursuite du joueur
     IEnumerator ChaseCorout(GameObject player)
     {
         while (true)
@@ -75,9 +86,10 @@ public class GhostScript : MonoBehaviour
             agent.SetDestination(player.transform.position);
             yield return null;
         }
-        yield return null;
     }
 
+    //fonction qui modifie la vitesse du fantome dependant de sa proximité du centre de son parcours 
+    //manque un peu de parametrage
     void updateSpeed(Vector3 playerPos, Vector3 center, float midDist)
     {
         center.y = playerPos.y;
@@ -88,6 +100,7 @@ public class GhostScript : MonoBehaviour
         agent.speed = speed;
     }
 
+    //fonctions utilisées par le script GhostDetectionZone pour passer de la patrouille a la poursuite et vice versa
     public void FocusPlayer(GameObject player)
     {
         StopCoroutine(curCorout);

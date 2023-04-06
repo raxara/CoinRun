@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+//script du timer
 public class Timer : MonoBehaviour
 {
 
@@ -15,7 +16,7 @@ public class Timer : MonoBehaviour
     [SerializeField]
     private float StartingTimer = 120;
 
-    // Start is called before the first frame update
+    //le timer n'utilise qu'une coroutine
     void Start()
     {
         timeRemaining = StartingTimer;
@@ -39,10 +40,5 @@ public class Timer : MonoBehaviour
     private void display(float timer)
     {
         timerText.text = Mathf.FloorToInt(timer / 60) + ":" + Mathf.FloorToInt(timer % 60) + ":" + Mathf.FloorToInt(timer * 1000 % 1000);
-    }
-
-    private void display(string message)
-    {
-        timerText.text = message;
     }
 }

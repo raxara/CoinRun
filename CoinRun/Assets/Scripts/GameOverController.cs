@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameOverController : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class GameOverController : MonoBehaviour
     public static GameOverController INSTANCE;
 
     public Transform parent;
+
+    [SerializeField]
+    TextMeshProUGUI scoreText;
 
     private void Awake()
     {
@@ -43,5 +47,6 @@ public class GameOverController : MonoBehaviour
             }
         }
         parent.gameObject.SetActive(display);
+        scoreText.text = "score : " + ScoreController.INSTANCE.score;
     }
 }

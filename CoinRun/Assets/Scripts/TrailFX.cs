@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+//script de l'orbe
 public class TrailFX : MonoBehaviour
 {
 
@@ -11,8 +12,6 @@ public class TrailFX : MonoBehaviour
     [SerializeField]
     NavMeshAgent agent;
 
-    float distanceToEnd = 0.5f;
-
     public void Init(Vector3 startTF, Vector3 targetTF)
     {
         this.startTF = startTF;
@@ -20,16 +19,5 @@ public class TrailFX : MonoBehaviour
         agent.transform.position = startTF;
         agent.SetDestination(targetTF);
     }
-
-    /*
-    private void Update()
-    {
-        if (distanceToEnd > agent.remainingDistance)
-        {
-            Destroy(this.gameObject);
-        }
-    }
-
-    */
 
 }

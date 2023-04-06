@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+//custom editor pour verifier que l'objet renseigné implemente bien l'interface IActivable
 [CustomEditor(typeof(ActivableSwitch))]
 public class ActivableSwitchEditor : Editor
 {

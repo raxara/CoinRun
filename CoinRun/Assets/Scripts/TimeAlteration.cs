@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//alteration qui ajoute ou enleve du temps au joueur
 public class TimeAlteration : MonoBehaviour
 {
     [SerializeField]

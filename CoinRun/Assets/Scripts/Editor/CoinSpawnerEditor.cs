@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+//custom editor permettant de creer des spawnArea via l'inspector du coinSpawner
 [CustomEditor(typeof(CoinSpawner))]
 public class CoinSpawnerEditor : Editor
 {

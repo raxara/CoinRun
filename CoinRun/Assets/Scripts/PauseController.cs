@@ -19,6 +19,7 @@ public class PauseController : MonoBehaviour
         Display(false);
     }
 
+    //fonctions des 2 boutons
     public void OnResumeClick()
     {
         LevelManager.INSTANCE.ResumeGame();
@@ -29,6 +30,7 @@ public class PauseController : MonoBehaviour
         LevelManager.INSTANCE.LoadMainMenu();
     }
 
+    //fonction d'affichage
     public void Display(bool display)
     {
         if (display)

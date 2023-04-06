@@ -8,7 +8,7 @@ public class ScoreController : MonoBehaviour
 
     public static ScoreController INSTANCE;
 
-    private int score;
+    public int score;
 
     [SerializeField]
     private TextMeshProUGUI scoreText;

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+//singleton manager des niveaux et des menus de pause et de game over
 public class LevelManager : MonoBehaviour
 {
 
@@ -21,6 +22,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    //ajoutée mais pas utilisée
     private bool inGame { get { return openMenu == null; } }
 
     public static GameObject openMenu;

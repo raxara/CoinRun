@@ -20,7 +20,6 @@ public class TeleporterScript : MonoBehaviour
     [SerializeField]
     float maxAnimationHeight = 2f;
 
-    //a modifier, le recuperer dans le trigger enter
     [SerializeField]
     Transform playerTF;
 
@@ -38,6 +37,7 @@ public class TeleporterScript : MonoBehaviour
         playerTF.localScale = new Vector3(1, 1, 1);
     }
 
+    //animation via code, se fait en 2 temps, le premier "squeeze" puis l'"affinage"
     IEnumerator AnimationCorout()
     {
         float curTime = 0;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//buff ou debuff qui modifie la vitesse du joueur
 public class SpeedAlteration : MonoBehaviour
 {
     [SerializeField]
@@ -21,14 +22,14 @@ public class SpeedAlteration : MonoBehaviour
     public Collider col;
 
 
-    // Start is called before the first frame update
+    // on choisit au hasard si c'est un buff ou un debuff
     void Start()
     {
         timeRemaining = duration;
         isBuff = (Random.value > 0.5f);
     }
 
-    // Update is called once per frame
+    // le joueur prend l'alteration, on lance la coroutine
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -40,6 +41,7 @@ public class SpeedAlteration : MonoBehaviour
         }
     }
 
+    //suivant si l'alteration est un buff ou un debuf, on multiplie ou divise la vitesse par le modifier, puis on la desactive en faisant le calcul inverse
     void activateAlteration(bool activate)
     {
         if (isBuff)
@@ -55,6 +57,7 @@ public class SpeedAlteration : MonoBehaviour
         
     }
 
+    //la coroutine active l'alteration, attend un certain temps et la desactive avant de detruire l'objet actif
     IEnumerator TimerCorout()
     {
         activateAlteration(true);
