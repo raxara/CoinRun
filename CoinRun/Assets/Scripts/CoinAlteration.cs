@@ -28,20 +28,21 @@ public class CoinAlteration : MonoBehaviour
         }
     }
 
+    //pour activer l'alteration, on definit aleatoirement si c'est un buff ou un debuff, puis on recupere une liste de pieces avant de modifier leur valeur
+    //puis on crée une orbe qui mene a chaque piece
     void activateAlteration()
     {
         CoinPickup.CoinType excludingType = isBuff ? CoinPickup.CoinType.Gold : CoinPickup.CoinType.Copper;
         List<CoinPickup> coinList = CoinSpawner.INSTANCE.getRandomCoinList(coinCount, excludingType);
-        Debug.Log(coinList.Count);
         foreach(CoinPickup coin in coinList)
         {
             if (isBuff) coin.coinType += 1;
             else coin.m_coinValue = -coin.m_coinValue;
             createTrail(coin.transform.position);
-            Debug.Log("valeur mofidiée dans la zone : " + coin.chunk.refArea.name);
         }
     }
 
+    //fait apparaitre une orbe
     void createTrail(Vector3 targetPos) 
     {
         GameObject instance = Instantiate(trailPrefab);

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//cette classe implemente l'interface Iactivable, et lance l'animation de la porte du cimetiere via la fonction SetBool
 public class ActivableGate : MonoBehaviour, IActivable
 {
 

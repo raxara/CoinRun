@@ -2,44 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//script de destruction d'une poutre qui sert de pont
 public class BreakableBeam : MonoBehaviour
 {
-
+    //limites, centre de la poutre et distance de l'un a l'autre, servent a calculer la perte de solidité
     [SerializeField]
     Transform aBound, bBound;
 
     Vector3 center;
 
+    float distBoundToCenter;
+
+    //solidité max et actuelle de la poutre, une fois a 0, la poutre se casse
     [SerializeField]
     float maxHealth = 10;
 
     public float curHealth;
 
-    float distBoundToCenter;
-
+    //"degats" maximum (au centre) que prendra la poutre par seconde
     [SerializeField]
     float maxDamagePerSec = 1;
 
+    //references a l'objet et les elements qui la composent
     [SerializeField]
     GameObject beamObj;
 
     List<GameObject> BaseBeamsTF;
 
+    //temps entre la destruction de la poutre et son respawn
     [SerializeField]
     float resetTimer = 10;
 
+    //reference de la fx de poussiere
     [SerializeField]
     ParticleSystem dustFX;
 
-    bool isBroken { get {
-            return BaseBeamsTF[1].transform.position != beamObj.transform.GetChild(1).transform.position;
-        } 
-    }
-
+    //force a utiliser lors de la destruction de la poutre
     [SerializeField]
     float impulseStrength = 5;
 
-    // Start is called before the first frame update
+    //propriété evitant des redondances
+    bool isBroken { 
+        get {
+            return BaseBeamsTF[1].transform.position != beamObj.transform.GetChild(1).transform.position;
+        } 
+    }
+    
+    //calcul et affectation des differentes variables
     void Start()
     {
         center = (aBound.position + bBound.position) * 0.5f;
@@ -55,12 +64,14 @@ public class BreakableBeam : MonoBehaviour
         }
     }
 
+    //si le joueur est en contact avec la poutre, elle fait de la poussiere
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
         dustFX.Play();
     }
 
+    //si le joueur reste sur la poutre, elle prendra des dommages periodiquement
     private void OnTriggerStay(Collider other)
     {
         if (!other.CompareTag("Player")) return;
@@ -68,6 +79,7 @@ public class BreakableBeam : MonoBehaviour
         SetDamage(damage);
     }
 
+    //des que le joueur sort du trigger de la poutre, on desactive la fx et on reinitialise la vie de la poutre
     private void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag("Player")) return;
@@ -78,6 +90,7 @@ public class BreakableBeam : MonoBehaviour
         dustFX.Stop();
     }
 
+    //fonction permettant de calculer des degats par seconde grace a un reverseLerp (minimum sur les cotés, maximum au centre)
     float GetDamage(Vector3 playerPos)
     {
         center.y = playerPos.y;
@@ -86,6 +99,7 @@ public class BreakableBeam : MonoBehaviour
         return maxDamagePerSec * t;
     }
 
+    //fonction permettant de verifier si le joueur est encore sur la poutre, meme pendant un saut
     bool IsInLocalSpace(Vector3 playerPos)
     {
         Vector3 playerLocalPos = transform.InverseTransformPoint(playerPos);
@@ -93,6 +107,8 @@ public class BreakableBeam : MonoBehaviour
         bool isInZLocalPos = (playerLocalPos.z > -distBoundToCenter && playerLocalPos.z < distBoundToCenter);
         return isInXLocalPos && isInZLocalPos;
     }
+
+    //fonction qui applique les degats a la poutre
     void SetDamage(float damage)
     {
         if (isBroken) return;
@@ -100,6 +116,7 @@ public class BreakableBeam : MonoBehaviour
         if (curHealth <= 0) BreakBeam();
     }
 
+    //fonction qui detruit la poutre en desactivant la gravité sur tous les differents bouts la composant puis lance la coroutine qui la reinitialisera
     void BreakBeam()
     {
         if (isBroken) return;
@@ -111,6 +128,7 @@ public class BreakableBeam : MonoBehaviour
         StartCoroutine(ResetTimerCorout());
     }
 
+    //Coroutine qui reinitialise la poutre apres un certain temps
     IEnumerator ResetTimerCorout()
     {
         float curTimer = 0;
@@ -122,6 +140,7 @@ public class BreakableBeam : MonoBehaviour
         ResetBeam();
     }
 
+    //fonction qui reconstruit la poutre
     void ResetBeam()
     {
         curHealth = maxHealth;
